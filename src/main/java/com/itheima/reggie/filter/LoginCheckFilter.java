@@ -40,6 +40,11 @@ public class LoginCheckFilter implements Filter {
                 "/user/login"
         };
 
+        String[] urlsEmployee = new String[]{
+                "/employee/**",
+                "/backend/**"
+        };
+
         // 2. 判断本次请求是否需要处理
         boolean check = check(urls, requestURI);
 
@@ -61,6 +66,16 @@ public class LoginCheckFilter implements Filter {
 
         // 4-2. 判断登陆状态，如果已经登陆，放行
         if (request.getSession().getAttribute("user") != null) {
+
+            check = check(urlsEmployee, requestURI);
+            // 判断是否是访问后台
+            if (check) {
+                log.info("客户不能访问后台", requestURI);
+                response.getWriter().write(JSON.toJSONString(R.error("NOTLOGIN")));
+                return;
+            }
+
+
             log.info("用户已经登陆，用户id为{}", request.getSession().getAttribute("user"));
             Long userId = (Long) request.getSession().getAttribute("user");
             BaseContext.setCurrentId(userId);

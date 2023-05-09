@@ -51,6 +51,7 @@ public class UserController {
                 // 注册
                 user = new User();
                 user.setPhone(phone);
+                user.setName("用户" + phone.substring(7));
                 userService.save(user);
             }
             session.setAttribute("user", user.getId());
@@ -78,5 +79,11 @@ public class UserController {
         }
 
         return R.error("发送短信失败");
+    }
+
+    @PostMapping("/logout")
+    public R<String> logout(HttpSession session) {
+        session.removeAttribute("user");
+        return R.success("退出成功");
     }
 }

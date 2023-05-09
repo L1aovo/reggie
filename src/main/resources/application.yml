@@ -20,4 +20,4 @@ mybatis-plus:
 
 reggie:
   upload:
-    path: D:\Desktop\Java项目实战\myCode\reggie_take_out\upload\
+    path: D:\reggie_take_out\upload\
